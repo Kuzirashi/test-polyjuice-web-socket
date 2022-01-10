@@ -12,9 +12,11 @@ export const useERC20Contract = (erc20Address: string, web3: Web3 | null) => {
 
     useEffect(() => {
         if (web3) {
-            const erc20 = new web3.eth.Contract(ERC20_JSON.abi as AbiItem[], '')
+            const erc20 = new web3.eth.Contract(ERC20_JSON.abi as AbiItem[], erc20Address)
 
             setERC20(erc20)
+
+            console.log('erc20 connected', erc20)
         }
     }, [erc20Address, web3])
 
