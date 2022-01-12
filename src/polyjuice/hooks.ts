@@ -6,6 +6,7 @@ import { PolyjuiceWebsocketProvider as EthersPolyjuiceWebsocketProvider } from "
 import config from "../godwoken.config.json"
 import Web3 from 'web3'
 import { providers } from 'ethers'
+import ERC20_JSON from '../contracts/abi/ERC20.json'
 
 export const useWeb3 = (connectedAccountAddress: string | null) => {
     const [web3, setWeb3] = useState<Web3 | null>(null)
@@ -40,6 +41,8 @@ export const useWeb3 = (connectedAccountAddress: string | null) => {
                 ethAccountLockCodeHash: config.nervos.ethAccountLockCodeHash,
                 web3Url: config.nervos.godwoken.rpcUrl
             }, options)
+
+            provider.setMultiAbi([ERC20_JSON.abi as any]);
 
             const web3 = new Web3(provider as WebsocketProvider)
             setWeb3(web3)

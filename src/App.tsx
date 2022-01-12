@@ -8,21 +8,19 @@ import { useEthers, useWeb3 } from './polyjuice/hooks'
 import Web3 from 'web3'
 import { useERC20Contract } from './contracts/hooks'
 
-const TRANSFER_ADDRESS = '0x80be658438074c9b615e6554f10c6fd5677f8ad3'
-
 const App: React.FC = () => {
   const [connectedAccountAddress, setConnectedAccountAddress] = React.useState<string | null>(null);
   const [blockNumber, setBlockNumber] = React.useState<number | null>(null);
   const [latestTransactionHash, setLatestTransactionHash] = React.useState<string | null>(null)
-  const [balance, setBalance] = React.useState<BigInt | null>(null);
+  const [ckbBalance, setCkbBalance] = React.useState<BigInt | null>(null);
+  const [tokenBalance, setTokenBalance] = React.useState<BigInt | null>(null);
   const [decimals, setDecimals] = React.useState<number | null>(null);
   const [transferValue, setTransferValue] = React.useState<number>(0)
 
   const web3 = useWeb3(connectedAccountAddress)
   const ethers = useEthers(connectedAccountAddress)
 
-  const wCKBAddress = '0xc03da4356b4030f0ec2494c18dcfa426574e10d5'
-  const polyConnectedAccountAddress = '0xeefd96eddcbc7971c48e0534fe1d2737f61679c7'
+  const wCKBAddress = '0x0815b0d4e58c8e707a85e774c37cab65480f66e9'
   const erc20 = useERC20Contract(wCKBAddress, web3)
 
   if (web3) {
@@ -43,17 +41,17 @@ const App: React.FC = () => {
     })
   }
 
-  const transfer = async () => {
-    console.log('transfer')
+  const deposit = async () => {
+    console.log('deposit')
     if (decimals) {
       const weiTransferValue = Web3.utils.toBN(transferValue).mul(Web3.utils.toBN(10).pow(Web3.utils.toBN(decimals)))
-      console.log('transfer amount', weiTransferValue.toString())
-      const transactionHash = await erc20?.methods.transfer(TRANSFER_ADDRESS, weiTransferValue).send({ from: connectedAccountAddress })
+      console.log('deposit amount', weiTransferValue.toString())
+      const transactionHash = await erc20?.methods.deposit().send({ from: connectedAccountAddress, value: weiTransferValue })
       console.log('transaction hash', transactionHash)
       setLatestTransactionHash(transactionHash)
 
       const balance = await erc20?.methods
-        .balanceOf(polyConnectedAccountAddress)
+        .balanceOf(connectedAccountAddress)
         .call()
       console.log('balance', balance)
     }
@@ -75,14 +73,14 @@ const App: React.FC = () => {
     async function listenBalance() {
       console.log('erc20', erc20?.options.address)
       const balance = await erc20?.methods
-        .balanceOf(polyConnectedAccountAddress)
+        .balanceOf(connectedAccountAddress)
         .call()
 
       const decimals = await erc20?.methods.decimals().call()
       console.log('balance', balance)
       console.log('decimals', decimals)
 
-      setBalance(balance)
+      setTokenBalance(balance)
       setDecimals(Web3.utils.toNumber(decimals))
     }
     console.log('erc20', erc20)
@@ -92,6 +90,18 @@ const App: React.FC = () => {
       listenBalance()
     }
   }, [erc20])
+
+  React.useEffect(() => {
+    async function fetchCkbBalance() {
+      if (ethers && connectedAccountAddress) {
+        const ckbBalance = await ethers?.getBalance(connectedAccountAddress);
+        console.log('fetchCkbBalance', ckbBalance);
+        setCkbBalance(ckbBalance.toBigInt());
+      }
+    }
+
+    fetchCkbBalance();
+  }, [connectedAccountAddress, ethers]);
   
   // React.useEffect(() => {
   //   async function listenBalance() {
@@ -119,14 +129,14 @@ const App: React.FC = () => {
     async function listenBalance() {
       console.log('erc20', erc20?.options.address)
       const balance = await erc20?.methods
-        .balanceOf(polyConnectedAccountAddress)
+        .balanceOf(connectedAccountAddress)
         .call()
 
       const decimals = await erc20?.methods.decimals().call()
       console.log('balance', balance)
       console.log('decimals', decimals)
 
-      setBalance(balance)
+      setTokenBalance(balance)
       setDecimals(Web3.utils.toNumber(decimals))
     }
 
@@ -138,7 +148,11 @@ const App: React.FC = () => {
 
   return (
     <div style={{ display: 'flex'}}>
+      
       <div style={{ display: 'flex', flexDirection: 'column'}}>
+      <h1>Wrapped CKB on Godwoken Testnet</h1>
+      <br/><br/>
+
         <ConnectButton
           onConnect={
             (connectedAccountAddress) => {
@@ -147,20 +161,21 @@ const App: React.FC = () => {
             }
           }
         />
+        <br/>
         <div>
-          {connectedAccountAddress ? connectedAccountAddress : undefined}
-        </div>
-        <div>
-          block number: {blockNumber}
+          Account: {connectedAccountAddress ? connectedAccountAddress : undefined}
         </div>
         <div style={{ marginTop: 16, marginBottom: 16 }}>
-          <div style={{ marginBottom: 8 }}>balance: {balance}</div>
+          Godwoken Testnet balances:
+          <div style={{ marginBottom: 8, marginTop: 8 }}>CKB Balance: {ckbBalance?.toString()} Shannons</div>
+          <div style={{ marginBottom: 8 }}>wCKB Balance: {tokenBalance} Shannons</div>
           <InputField
-            label="Transfer"
+            label="Deposit CKB to get wCKB"
             value={transferValue}
-            onClick={transfer}
+            onClick={deposit}
             onChange={(value) => setTransferValue(value)}
           />
+          The above value is in CKB unit (not in Shannons). Refresh the page after sending transaction.
         </div>
       </div>
     </div>
