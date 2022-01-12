@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/wckb-faucet/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/wckb-faucet/static/js/main.23d0e11f.chunk.js",
-    "main.js.map": "/wckb-faucet/static/js/main.23d0e11f.chunk.js.map",
-    "runtime-main.js": "/wckb-faucet/static/js/runtime-main.1a4bce53.js",
-    "runtime-main.js.map": "/wckb-faucet/static/js/runtime-main.1a4bce53.js.map",
-    "static/js/2.c07646ae.chunk.js": "/wckb-faucet/static/js/2.c07646ae.chunk.js",
-    "static/js/2.c07646ae.chunk.js.map": "/wckb-faucet/static/js/2.c07646ae.chunk.js.map",
-    "static/js/3.f7ecf919.chunk.js": "/wckb-faucet/static/js/3.f7ecf919.chunk.js",
-    "static/js/3.f7ecf919.chunk.js.map": "/wckb-faucet/static/js/3.f7ecf919.chunk.js.map",
+    "main.js": "/wckb-faucet/static/js/main.cf54a840.chunk.js",
+    "main.js.map": "/wckb-faucet/static/js/main.cf54a840.chunk.js.map",
+    "runtime-main.js": "/wckb-faucet/static/js/runtime-main.4742915d.js",
+    "runtime-main.js.map": "/wckb-faucet/static/js/runtime-main.4742915d.js.map",
+    "static/js/2.1413110c.chunk.js": "/wckb-faucet/static/js/2.1413110c.chunk.js",
+    "static/js/2.1413110c.chunk.js.map": "/wckb-faucet/static/js/2.1413110c.chunk.js.map",
+    "static/js/3.c4fe65f4.chunk.js": "/wckb-faucet/static/js/3.c4fe65f4.chunk.js",
+    "static/js/3.c4fe65f4.chunk.js.map": "/wckb-faucet/static/js/3.c4fe65f4.chunk.js.map",
     "index.html": "/wckb-faucet/index.html",
     "static/css/main.6dea0f05.chunk.css.map": "/wckb-faucet/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.c07646ae.chunk.js.LICENSE.txt": "/wckb-faucet/static/js/2.c07646ae.chunk.js.LICENSE.txt"
+    "static/js/2.1413110c.chunk.js.LICENSE.txt": "/wckb-faucet/static/js/2.1413110c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.1a4bce53.js",
-    "static/js/2.c07646ae.chunk.js",
+    "static/js/runtime-main.4742915d.js",
+    "static/js/2.1413110c.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.23d0e11f.chunk.js"
+    "static/js/main.cf54a840.chunk.js"
   ]
 }
