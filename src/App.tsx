@@ -1,4 +1,6 @@
 import React from 'react'
+import { AddressTranslator } from 'nervos-godwoken-integration';
+
 import { listenBlocks } from './contracts/hooks';
 
 import { ConnectButton } from './metamask/containers/ConnectButton'
@@ -8,6 +10,8 @@ import { useEthers, useWeb3 } from './polyjuice/hooks'
 import Web3 from 'web3'
 import { useERC20Contract } from './contracts/hooks'
 
+const addressTranslator = new AddressTranslator();
+
 const App: React.FC = () => {
   const [connectedAccountAddress, setConnectedAccountAddress] = React.useState<string | null>(null);
   const [blockNumber, setBlockNumber] = React.useState<number | null>(null);
@@ -16,6 +20,7 @@ const App: React.FC = () => {
   const [tokenBalance, setTokenBalance] = React.useState<BigInt | null>(null);
   const [decimals, setDecimals] = React.useState<number | null>(null);
   const [transferValue, setTransferValue] = React.useState<number>(0)
+  const [depositAddress, setDepositAddress] = React.useState<string | null>(null)
 
   const web3 = useWeb3(connectedAccountAddress)
   const ethers = useEthers(connectedAccountAddress)
@@ -93,15 +98,20 @@ const App: React.FC = () => {
 
   React.useEffect(() => {
     async function fetchCkbBalance() {
+      console.log();
       if (ethers && connectedAccountAddress) {
         const ckbBalance = await ethers?.getBalance(connectedAccountAddress);
         console.log('fetchCkbBalance', ckbBalance);
         setCkbBalance(ckbBalance.toBigInt());
+
+        const newDepositAddress = await addressTranslator.getLayer2DepositAddress(web3, connectedAccountAddress);
+        // console.log('ckb addr deposit', newDepositAddress.toCKBAddress().toString());
+        setDepositAddress(newDepositAddress.toCKBAddress().toString());
       }
     }
 
     fetchCkbBalance();
-  }, [connectedAccountAddress, ethers]);
+  }, [connectedAccountAddress, ethers, web3]);
   
   // React.useEffect(() => {
   //   async function listenBalance() {
@@ -146,7 +156,7 @@ const App: React.FC = () => {
   }, [blockNumber])
   // listenBlocks(web3)
 
-  return (
+  return (<>
     <div style={{ display: 'flex'}}>
       
       <div style={{ display: 'flex', flexDirection: 'column'}}>
@@ -179,6 +189,14 @@ const App: React.FC = () => {
         </div>
       </div>
     </div>
+    <br/>
+    <br/>
+    <div style={{ maxWidth: '60%', wordWrap: 'break-word' }}>
+    Layer 2 deposit address: {depositAddress}
+    <br/><br />
+    You can paste above address in <a href="https://faucet.nervos.org/">https://faucet.nervos.org/</a> to get CKB on Layer 2.
+    </div>
+  </>
   );
 }
 

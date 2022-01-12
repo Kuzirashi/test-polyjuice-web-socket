@@ -2,8 +2,9 @@
   "name": "web-socket-balance-tracking",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://danielkmak.com/dckb-faucet",
+  "homepage": "http://danielkmak.com/wckb-faucet",
   "dependencies": {
+    "@ckb-lumos/config-manager": "0.18.0-rc1",
     "@metamask/detect-provider": "^1.2.0",
     "@metamask/inpage-provider": "^8.1.0",
     "@metamask/onboarding": "^1.0.1",
@@ -17,6 +18,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "ethers": "^5.5.2",
+    "nervos-godwoken-integration": "0.0.14",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -27,6 +29,10 @@
     "web3-eth-contract": "^1.6.1",
     "web3-providers-ws": "^1.6.1",
     "web3-utils": "^1.6.1"
+  },
+  "resolutions": {
+    "@ckb-lumos/config-manager": "0.17.0-rc5",
+    "@ckb-lumos/base": "0.17.0-rc5"
   },
   "scripts": {
     "start": "react-scripts start",
