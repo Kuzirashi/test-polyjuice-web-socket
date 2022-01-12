@@ -2,7 +2,7 @@
   "name": "web-socket-balance-tracking",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/wckb-faucet",
+  "homepage": "http://danielkmak.com/dckb-faucet",
   "dependencies": {
     "@metamask/detect-provider": "^1.2.0",
     "@metamask/inpage-provider": "^8.1.0",
