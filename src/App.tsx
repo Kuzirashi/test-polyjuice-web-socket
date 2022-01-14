@@ -103,15 +103,14 @@ const App: React.FC = () => {
         const ckbBalance = await ethers?.getBalance(connectedAccountAddress);
         console.log('fetchCkbBalance', ckbBalance);
         setCkbBalance(ckbBalance.toBigInt());
-
-        const newDepositAddress = await addressTranslator.getLayer2DepositAddress(web3, connectedAccountAddress);
-        // console.log('ckb addr deposit', newDepositAddress.toCKBAddress().toString());
+        await addressTranslator.init();
+        const newDepositAddress = await addressTranslator.getLayer2DepositAddress(connectedAccountAddress);
         setDepositAddress(newDepositAddress.toCKBAddress().toString());
       }
     }
 
     fetchCkbBalance();
-  }, [connectedAccountAddress, ethers, web3]);
+  }, [connectedAccountAddress, ethers]);
   
   // React.useEffect(() => {
   //   async function listenBalance() {
