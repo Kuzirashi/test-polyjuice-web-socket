@@ -31,4 +31,4 @@ jobs:
           aws-region: us-east-1
       - name: Deploy
         if: github.ref == 'refs/heads/master'
-        run: aws s3 sync ./out s3://godwoken.ckb.tools
+        run: aws s3 sync ./build s3://godwoken.ckb.tools
