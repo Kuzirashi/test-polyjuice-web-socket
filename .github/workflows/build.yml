@@ -20,7 +20,7 @@ jobs:
         run: yarn
 
       - name: Run production build
-        run: yarn build
+        run: CI=false yarn build
       
       - name: Configure AWS credentials
         if: github.ref == 'refs/heads/master'
